@@ -19,13 +19,29 @@ describe('Block', () => {
 		expect(block.hash).toEqual('c539e8ac5c32ab5c11566bc6ce93e10f1b52d23323899f6971855301c2ec9134');
 	});
 	it('should have .prev set to prevBlock param\'s .hash', () => {
-		const prev = prevBlock.hash;
-		const block = Block(prevBlock);
+		let prev = prevBlock.hash;
+		let block = Block(prevBlock);
+		expect(block.prev).toEqual(prev);
+
+		// multiple layers deep
+		block = Block(block);
+		block = Block(block);
+		block = Block(block);
+		prev = block.hash;
+		block = Block(block);
 		expect(block.prev).toEqual(prev);
 	});
 	it('should have .blockNum set to 1 + prevBlock param\'s .blockNum', () => {
-		const expectedBlockNum = prevBlock.blockNum + 1;
-		const block = Block(prevBlock);
+		let expectedBlockNum = prevBlock.blockNum + 1;
+		let block = Block(prevBlock);
+		expect(block.blockNum).toEqual(expectedBlockNum);
+
+		// multiple layers deep
+		block = Block(block);
+		block = Block(block);
+		block = Block(block);
+		expectedBlockNum = block.blockNum + 1;
+		block = Block(block);
 		expect(block.blockNum).toEqual(expectedBlockNum);
 	});
 	it('should have .hash set to hash of its blockNum + all data, whether or not prevBlock passed in', () => {
@@ -37,6 +53,15 @@ describe('Block', () => {
 		expect(block.hash).toEqual(expectedHash);
 		// prevBlock passed in
 		block = Block(prevBlock);
+		({ blockNum, prev } = block);
+		toBeHashed = `${blockNum}${prev}`;
+		expectedHash = sha256(toBeHashed).toString();
+		expect(block.hash).toEqual(expectedHash);
+
+		// multiple layers deep
+		block = Block(block);
+		block = Block(block);
+		block = Block(block);
 		({ blockNum, prev } = block);
 		toBeHashed = `${blockNum}${prev}`;
 		expectedHash = sha256(toBeHashed).toString();
