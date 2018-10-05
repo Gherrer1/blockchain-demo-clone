@@ -4,7 +4,7 @@
   "description": "Visual blockchain demo - originally written by @anders94 this reimplementation is just practice",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --watchAll",
     "start": "webpack-dev-server --open",
     "deploy": "webpack -p && firebase deploy"
   },
@@ -29,7 +29,9 @@
     "@babel/core": "^7.1.2",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
+    "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.4",
     "css-loader": "^1.0.0",
     "eslint": "^5.6.1",
