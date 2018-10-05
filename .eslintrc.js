@@ -14,6 +14,7 @@ module.exports = {
             "imports": "always-multiline",
             "arrays": "always-multiline",
         }],
+        "import/prefer-default-export": 0,
         "indent": ["error", "tab"],
         "jsx-a11y/no-noninteractive-element-to-interactive-role": 0,
         "no-alert": 0,
