@@ -20,7 +20,7 @@ export function updatedBlock(block, field, newValue) {
 	return newBlock;
 }
 
-export function Block(prevBlock = null) {
+export function block(prevBlock = null) {
 	if (prevBlock) {
 		const blockNum = prevBlock.blockNum + 1;
 		const prev = prevBlock.hash;

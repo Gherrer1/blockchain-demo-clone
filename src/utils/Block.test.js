@@ -1,5 +1,5 @@
 import sha256 from 'crypto-js/sha256';
-import { Block, hashBlock, updatedBlock } from './Block';
+import { block as Block, hashBlock, updatedBlock } from './block';
 
 describe('Block', () => {
 	let prevBlock;

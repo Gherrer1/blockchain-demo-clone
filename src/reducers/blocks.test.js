@@ -1,13 +1,13 @@
 import { blocks } from '.';
-import { Block } from '../utils';
+import { block as Block } from '../utils';
 import { ADD_BLOCK, CHANGE_BLOCK } from '../actions';
 
 function get10BlockPrevState() {
-	let block = Block();
+	let _block = Block();
 	const prevState = [];
 	for (let i = 0; i < 10; i++) {
-		prevState.push(block);
-		block = Block(block);
+		prevState.push(_block);
+		_block = Block(_block);
 	}
 	return prevState;
 }

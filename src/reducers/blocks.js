@@ -1,6 +1,6 @@
 /* eslint-disable no-case-declarations */
 import { ADD_BLOCK, CHANGE_BLOCK } from '../actions';
-import { Block, updatedBlock } from '../utils';
+import { block as Block, updatedBlock } from '../utils';
 
 export function blocks(state = [], action) {
 	switch (action.type) {
