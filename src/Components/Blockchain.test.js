@@ -1,3 +1,4 @@
+/* eslint-disable array-bracket-spacing, no-unexpected-multiline, no-spaced-func, func-call-spacing */
 import React from 'react';
 import { render, shallow, mount } from 'enzyme';
 import Root from './Root';
@@ -47,70 +48,26 @@ describe('<ConnectedBlockchain />', () => {
 		);
 		expect(wrapper.find(Blockchain).length).toEqual(1);
 	});
-	it('must render as many Blocks as it receives from Redux', () => {
-		// 0 blocks case
-		let wrapper = render(
-			<Root initialState={[]}>
+	it.each([ [[], 0], [[block()], 1], [[block(), block(block()), block(block(block()))], 3] ])
+	('must render as many Blocks as it receives from Redux: %j %i', (blocks, expectedBlocksRendered) => {
+		const wrapper = mount(
+			<Root initialState={blocks}>
 				<ConnectedBlockchain />
 			</Root>
 		);
-		expect(wrapper.find(Block).length).toEqual(0);
-
-		// 1 block case
-		wrapper = mount(
-			<Root initialState={[block()]}>
-				<ConnectedBlockchain />
-			</Root>
-		);
-		expect(wrapper.find(Block).length).toEqual(1);
-
-		// n block case
-		const block1 = block();
-		const block2 = block(block1);
-		const block3 = block(block2);
-
-		wrapper = mount(
-			<Root initialState={[block1, block2, block3]}>
-				<ConnectedBlockchain />
-			</Root>
-		);
-		expect(wrapper.find(Block).length).toEqual(3);
+		expect(wrapper.find(Block).length).toEqual(expectedBlocksRendered);
 	});
-	it('must render one more block after clicking add block button', () => {
+	it.each([ [[], 1], [[block()], 2], [[block(), block(block()), block(block(block()))], 4] ])
+	('must render one more block after clicking add block button: %j %i', (beforeBlocks, afterLength) => {
 		// from 0 blocks case
-		let wrapper = mount(
-			<Root initialState={[]}>
+		const wrapper = mount(
+			<Root initialState={beforeBlocks}>
 				<ConnectedBlockchain />
 			</Root>
 		);
-		expect(wrapper.find(Block).length).toEqual(0);
+		expect(wrapper.find(Block).length).toEqual(afterLength - 1);
 		wrapper.find('button').simulate('click');
 		wrapper.update();
-		expect(wrapper.find(Block).length).toEqual(1);
-
-		// from 1 block case
-		wrapper = mount(
-			<Root initialState={[block()]}>
-				<ConnectedBlockchain />
-			</Root>
-		);
-		expect(wrapper.find(Block).length).toEqual(1);
-		wrapper.find('button').simulate('click');
-		wrapper.update();
-		expect(wrapper.find(Block).length).toEqual(2);
-
-		// from n blocks case
-		const block1 = block();
-		const block2 = block(block1);
-		const block3 = block(block2);
-		wrapper = mount(
-			<Root initialState={[block1, block2, block3]}>
-				<ConnectedBlockchain />
-			</Root>
-		);
-		expect(wrapper.find(Block).length).toEqual(3);
-		wrapper.find('button').simulate('click');
-		wrapper.update();
-		expect(wrapper.find(Block).length).toEqual(4);
+		expect(wrapper.find(Block).length).toEqual(afterLength);
 	});
 });
