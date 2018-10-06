@@ -4,7 +4,23 @@ function zeroHash() {
 	return new Array(64).join('0');
 }
 
-export default function Block(prevBlock = null) {
+export function hashBlock(block) {
+	// NOTE: this is subject to be expanded
+	const { blockNum, prev } = block;
+	const toHash = `${blockNum}${prev}`;
+	return sha256(toHash).toString();
+}
+
+export function updatedBlock(block, field, newValue) {
+	const newBlock = {
+		...block,
+		[field]: newValue,
+	};
+	newBlock.hash = hashBlock(newBlock);
+	return newBlock;
+}
+
+export function Block(prevBlock = null) {
 	if (prevBlock) {
 		const blockNum = prevBlock.blockNum + 1;
 		const prev = prevBlock.hash;

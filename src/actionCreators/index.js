@@ -6,9 +6,11 @@ export function addBlock() {
 	};
 }
 
-export function changeBlock(blockNum) {
+export function changeBlock(index, field, newValue) {
 	return {
 		type: CHANGE_BLOCK,
-		blockNum,
+		index,
+		field,
+		newValue,
 	};
 }

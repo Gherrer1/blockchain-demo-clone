@@ -1,5 +1,5 @@
 import sha256 from 'crypto-js/sha256';
-import Block from './Block';
+import { Block, hashBlock, updatedBlock } from './Block';
 
 describe('Block', () => {
 	let prevBlock;
@@ -66,5 +66,46 @@ describe('Block', () => {
 		toBeHashed = `${blockNum}${prev}`;
 		expectedHash = sha256(toBeHashed).toString();
 		expect(block.hash).toEqual(expectedHash);
+	});
+});
+
+describe('hashBlock', () => {
+	it('should hash based on these fields: blockNum, prev', () => {
+		const block = Block();
+		const { blockNum, prev } = block;
+		const toHash = `${blockNum}${prev}`;
+		const expectedHash = sha256(toHash).toString();
+		const hash = hashBlock(block);
+		expect(hash).toEqual(expectedHash);
+	});
+	it('should hashed based on the above fields for not-just-first blocks', () => {
+		let block = Block();
+		block = Block(block);
+		block = Block(block);
+		const { blockNum, prev } = block;
+		const toHash = `${blockNum}${prev}`;
+		const expectedHash = sha256(toHash).toString();
+		const hash = hashBlock(block);
+		expect(hash).toEqual(expectedHash);
+	});
+});
+
+describe('updatedBlock', () => {
+	let oldBlock;
+	beforeEach(() => {
+		oldBlock = Block(Block());
+	});
+	it('should return a different block with diff hash if we update prev', () => {
+		const newBlock = updatedBlock(oldBlock, 'prev', 'abc');
+		expect(newBlock.hash).not.toEqual(oldBlock.hash);
+		// throw new Error('unimplemented');
+	});
+	it('should return a different block if we update blockNum', () => {
+		const newBlock = updatedBlock(oldBlock, 'blockNum', 10000000);
+		expect(newBlock.hash).not.toEqual(oldBlock.hash);
+	});
+	it('should return the block with same hash if we update a field that doesnt matter for hash', () => {
+		const newBlock = updatedBlock(oldBlock, 'huh?', 'huh?');
+		expect(newBlock.hash).toEqual(oldBlock.hash);
 	});
 });
