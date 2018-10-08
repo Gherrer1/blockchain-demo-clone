@@ -23,19 +23,13 @@ export function changeBlock(index, field, newValue) {
 }
 
 export function changeBlockNum(index, newValue) {
-	return {
-		type: CHANGE_BLOCK,
-		field: 'blockNum',
-		index,
-		newValue,
-	};
+	return changeBlock(index, 'blockNum', newValue);
 }
 
 export function changeNonce(index, newValue) {
-	return {
-		type: CHANGE_BLOCK,
-		field: 'nonce',
-		index,
-		newValue,
-	};
+	return changeBlock(index, 'nonce', newValue);
+}
+
+export function changeData(index, newValue) {
+	return changeBlock(index, 'data', newValue);
 }

@@ -45,6 +45,10 @@ describe('<Block />', () => {
 		expect(wrapper.find('.mine-btn').length).toEqual(1);
 		expect(wrapper.find('.mine-btn').props().onClick).toBeDefined();
 	});
+	it('should render a data textarea with value of prop.block.data', () => {
+		expect(wrapper.find('.data').length).toEqual(1);
+		expect(wrapper.find('.data').props().value).toEqual(block.data);
+	});
 	it('should not have a .mined className if props.block.hash isn\'t 3 0 prefixed', () => {
 		expect(wrapper.find('.mined').length).toEqual(0);
 	});
@@ -105,6 +109,17 @@ describe('<Block />', () => {
 				type: 'CHANGE_BLOCK',
 				index: 3,
 				field: 'nonce',
+				newValue: 'new va',
+			});
+		});
+		it('should call dispatch({ type: CHANGE_BLOCK, index: x, field: "data", newValue }) when data value changes', () => {
+			const dataInput = mountWrapper.find('.data');
+			dataInput.simulate('change', { target: { value: 'new va' } });
+			expect(dispatchStub).toHaveBeenCalled();
+			expect(dispatchStub.mock.calls[0][0]).toEqual({
+				type: 'CHANGE_BLOCK',
+				index: 3,
+				field: 'data',
 				newValue: 'new va',
 			});
 		});

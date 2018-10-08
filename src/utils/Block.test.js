@@ -6,9 +6,10 @@ describe('Block', () => {
 	beforeEach(() => {
 		prevBlock = Block();
 	});
-	it('should return an object with these properties: prev, hash, blockNum, nonce', () => {
+	it('should return an object with these properties: prev, hash, blockNum, data, nonce', () => {
 		const block = Block();
 		expect(block.prev).toEqual(expect.anything());
+		expect(block.data).toEqual(expect.anything());
 		expect(block.hash).toEqual(expect.anything());
 		expect(block.blockNum).toEqual(expect.anything());
 		expect(block.nonce).toEqual(expect.anything());
@@ -76,6 +77,13 @@ describe('Block', () => {
 		block = Block(Block());
 		expect(block.nonce).toEqual('');
 	});
+	it('should have a .data value of "" whether or not its called with a prevBlock', () => {
+		let block = Block();
+		expect(block.data).toEqual('');
+
+		block = Block(Block());
+		expect(block.data).toEqual('');
+	});
 });
 
 describe('hashBlock', () => {
@@ -116,6 +124,10 @@ describe('updatedBlock', () => {
 		const newBlock = updatedBlock(oldBlock, 'nonce', 'akfhgsdljkfghsdjgh');
 		expect(newBlock.hash).not.toEqual(oldBlock.hash);
 	});
+	it('should return a diff block with diff hash if we update data', () => {
+		const newBlock = updatedBlock(oldBlock, 'data', 'esophagus');
+		expect(newBlock.hash).not.toEqual(oldBlock.hash);
+	})
 	it('should return the block with same hash if we update a field that doesnt matter for hash', () => {
 		const newBlock = updatedBlock(oldBlock, 'huh?', 'huh?');
 		expect(newBlock.hash).toEqual(oldBlock.hash);
@@ -123,12 +135,34 @@ describe('updatedBlock', () => {
 });
 
 describe('getToHashStrFromBlock', () => {
-	it('should hash in this order: blockNum + nonce + prev', () => {
+	it('should hash in this order: blockNum + nonce + data + prev', () => {
 		const block = Block(Block());
 		block.nonce = '500';
+		block.data = 'spiderman'
 		const toHashString = getToHashStrFromBlock(block);
-		const { blockNum, nonce, prev } = block;
-		const expectedToHashString = `${blockNum}${nonce}${prev}`;
+		const { blockNum, nonce, data, prev } = block;
+		const expectedToHashString = `${blockNum}${nonce}${data}${prev}`;
 		expect(toHashString).toEqual(expectedToHashString);
+	});
+});
+
+describe('getToHashStringFromBlock', () => {
+	it('should return same hash string as if we werent hashing with data if data === ""', () => {
+		const blockNum = 1;
+		const nonce = 'abc';
+		const data = '';
+		const prev = new Array(64).join('0');
+		const withDataEmptyStr = getToHashStrFromBlock({ blockNum, nonce, data, prev });
+		const withoutDataAtAll = `${blockNum}${nonce}${prev}`;
+		expect(withDataEmptyStr).toEqual(withoutDataAtAll);
+	});
+	it('should produce same hash without data as hashing with data when data === ""', () => {
+		const blockNum = 1;
+		const nonce = '';
+		const data = '';
+		const prev = new Array(64).fill('0');
+		const withoutDataHash = sha256(`${blockNum}${nonce}${prev}`).toString();
+		const withDataHash = sha256(`${blockNum}${nonce}${data}${prev}`).toString();
+		expect(withoutDataHash).toEqual(withDataHash);
 	});
 });

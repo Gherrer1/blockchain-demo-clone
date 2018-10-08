@@ -5,8 +5,8 @@ function zeroHash() {
 }
 
 export function getToHashStrFromBlock(_block) {
-	const { blockNum, nonce, prev } = _block;
-	return `${blockNum}${nonce}${prev}`;
+	const { blockNum, nonce, data, prev } = _block;
+	return `${blockNum}${nonce}${data}${prev}`;
 }
 
 export function hashBlock(_block) {
@@ -29,25 +29,29 @@ export function block(prevBlock = null) {
 		const blockNum = prevBlock.blockNum + 1;
 		const prev = prevBlock.hash;
 		const nonce = '';
-		const toBeHashed = getToHashStrFromBlock({ blockNum, prev, nonce });
+		const data = '';
+		const toBeHashed = getToHashStrFromBlock({ blockNum, prev, nonce, data });
 		const hash = sha256(toBeHashed).toString();
 		return {
 			prev,
 			blockNum,
 			nonce,
+			data,
 			hash,
 		};
 	}
 
 	const blockNum = 1;
 	const nonce = '';
+	const data = '';
 	const prev = zeroHash();
-	const toBeHashed = getToHashStrFromBlock({ blockNum, nonce, prev });
+	const toBeHashed = getToHashStrFromBlock({ blockNum, nonce, prev, data });
 	const hash = sha256(toBeHashed).toString();
 	return {
 		prev: zeroHash(),
 		hash,
 		blockNum: 1,
 		nonce,
+		data,
 	};
 }

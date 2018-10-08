@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { changeNonce, changeBlockNum, mineBlock } from '../actionCreators';
+import { changeNonce, changeBlockNum, mineBlock, changeData } from '../actionCreators';
 
 export function Block({ block, dispatch, index }) {
 	return (
@@ -16,6 +16,12 @@ export function Block({ block, dispatch, index }) {
 				<label className="col-form-label col-sm-2">Nonce:</label>
 				<div className="col-sm-10">
 					<input type="text" className="form-control nonce" value={block.nonce} onChange={e => dispatch(changeNonce(index, e.target.value))} />
+				</div>
+			</div>
+			<div className="form-group row">
+				<label className="col-form-label col-sm-2">Data:</label>
+				<div className="col-sm-10">
+					<textarea className="form-control data" value={block.data} onChange={e => dispatch(changeData(index, e.target.value))} />
 				</div>
 			</div>
 			<div className="form-group row">
