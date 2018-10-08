@@ -1,16 +1,18 @@
 import sha256 from 'crypto-js/sha256';
-import { block as Block, hashBlock, updatedBlock } from './block';
+import { block as Block, hashBlock, updatedBlock, getToHashStrFromBlock } from './block';
 
 describe('Block', () => {
 	let prevBlock;
 	beforeEach(() => {
 		prevBlock = Block();
 	});
-	it('should return an object with these properties: prev, hash, blockNum', () => {
+	it('should return an object with these properties: prev, hash, blockNum, nonce', () => {
 		const block = Block();
 		expect(block.prev).toEqual(expect.anything());
 		expect(block.hash).toEqual(expect.anything());
 		expect(block.blockNum).toEqual(expect.anything());
+		expect(block.nonce).toEqual(expect.anything());
+		expect(block.nonce).toEqual('');
 	});
 	it('should have default values of 0x64, c539...134, and 1 if not called with prevBlock argument', () => {
 		const block = Block();
@@ -67,13 +69,20 @@ describe('Block', () => {
 		expectedHash = sha256(toBeHashed).toString();
 		expect(block.hash).toEqual(expectedHash);
 	});
+	it('should have a .nonce value of \'\' whether or not its called with prevBlock', () => {
+		let block = Block();
+		expect(block.nonce).toEqual('');
+
+		block = Block(Block());
+		expect(block.nonce).toEqual('');
+	});
 });
 
 describe('hashBlock', () => {
-	it('should hash based on these fields: blockNum, prev', () => {
+	it('should hash based on these fields: blockNum, prev, nonce', () => {
 		const block = Block();
-		const { blockNum, prev } = block;
-		const toHash = `${blockNum}${prev}`;
+		const { blockNum, prev, nonce } = block;
+		const toHash = `${blockNum}${nonce}${prev}`;
 		const expectedHash = sha256(toHash).toString();
 		const hash = hashBlock(block);
 		expect(hash).toEqual(expectedHash);
@@ -82,8 +91,8 @@ describe('hashBlock', () => {
 		let block = Block();
 		block = Block(block);
 		block = Block(block);
-		const { blockNum, prev } = block;
-		const toHash = `${blockNum}${prev}`;
+		const { blockNum, prev, nonce } = block;
+		const toHash = `${blockNum}${nonce}${prev}`;
 		const expectedHash = sha256(toHash).toString();
 		const hash = hashBlock(block);
 		expect(hash).toEqual(expectedHash);
@@ -95,17 +104,31 @@ describe('updatedBlock', () => {
 	beforeEach(() => {
 		oldBlock = Block(Block());
 	});
-	it('should return a different block with diff hash if we update prev', () => {
+	it('should NOT return a different block with diff hash if we update prev', () => {
 		const newBlock = updatedBlock(oldBlock, 'prev', 'abc');
-		expect(newBlock.hash).not.toEqual(oldBlock.hash);
-		// throw new Error('unimplemented');
+		expect(newBlock.hash).toEqual(oldBlock.hash);
 	});
 	it('should return a different block if we update blockNum', () => {
 		const newBlock = updatedBlock(oldBlock, 'blockNum', 10000000);
 		expect(newBlock.hash).not.toEqual(oldBlock.hash);
 	});
+	it('should return a different block if we update nonce', () => {
+		const newBlock = updatedBlock(oldBlock, 'nonce', 'akfhgsdljkfghsdjgh');
+		expect(newBlock.hash).not.toEqual(oldBlock.hash);
+	});
 	it('should return the block with same hash if we update a field that doesnt matter for hash', () => {
 		const newBlock = updatedBlock(oldBlock, 'huh?', 'huh?');
 		expect(newBlock.hash).toEqual(oldBlock.hash);
+	});
+});
+
+describe('getToHashStrFromBlock', () => {
+	it('should hash in this order: blockNum + nonce + prev', () => {
+		const block = Block(Block());
+		block.nonce = '500';
+		const toHashString = getToHashStrFromBlock(block);
+		const { blockNum, nonce, prev } = block;
+		const expectedToHashString = `${blockNum}${nonce}${prev}`;
+		expect(toHashString).toEqual(expectedToHashString);
 	});
 });

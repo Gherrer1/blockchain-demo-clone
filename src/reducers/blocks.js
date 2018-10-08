@@ -27,7 +27,7 @@ export function blocks(state = [], action) {
 			}
 			if (index > action.index) {
 				const newPrev = lastHash;
-				const newBlock = updatedBlock(block, 'prev', newPrev);
+				const newBlock = updatedBlock(block, action.field, newPrev);
 				lastHash = newBlock.hash;
 				return newBlock;
 			}

@@ -71,7 +71,7 @@ describe('blocks reducer', () => {
 			action = {
 				type: CHANGE_BLOCK,
 				index: 4,
-				field: 'prev',
+				field: 'nonce',
 				newValue: 'abc',
 			};
 		});

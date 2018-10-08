@@ -4,14 +4,21 @@ function zeroHash() {
 	return new Array(64).join('0');
 }
 
+export function getToHashStrFromBlock(_block) {
+	const { blockNum, nonce, prev } = _block;
+	return `${blockNum}${nonce}${prev}`;
+}
+
 export function hashBlock(_block) {
 	// NOTE: this is subject to be expanded
-	const { blockNum, prev } = _block;
-	const toHash = `${blockNum}${prev}`;
+	const toHash = getToHashStrFromBlock(_block);
 	return sha256(toHash).toString();
 }
 
 export function updatedBlock(_block, field, newValue) {
+	if (field === 'prev') {
+		return _block;
+	}
 	const newBlock = {
 		..._block,
 		[field]: newValue,
@@ -24,22 +31,26 @@ export function block(prevBlock = null) {
 	if (prevBlock) {
 		const blockNum = prevBlock.blockNum + 1;
 		const prev = prevBlock.hash;
-		const toBeHashed = `${blockNum}${prev}`;
+		const nonce = '';
+		const toBeHashed = getToHashStrFromBlock({ blockNum, prev, nonce });
 		const hash = sha256(toBeHashed).toString();
 		return {
 			prev,
 			blockNum,
+			nonce,
 			hash,
 		};
 	}
 
 	const blockNum = 1;
+	const nonce = '';
 	const prev = zeroHash();
-	const toBeHashed = `${blockNum}${prev}`;
+	const toBeHashed = getToHashStrFromBlock({ blockNum, nonce, prev });
 	const hash = sha256(toBeHashed).toString();
 	return {
 		prev: zeroHash(),
 		hash,
 		blockNum: 1,
+		nonce,
 	};
 }
