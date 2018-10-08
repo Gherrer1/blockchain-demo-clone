@@ -17,6 +17,7 @@ export function Blockchain(props) {
 			</div>
 			<button
 				type="button"
+				className="add-block-btn"
 				onClick={() => dispatch(addBlock())}
 			>
 				Add Block

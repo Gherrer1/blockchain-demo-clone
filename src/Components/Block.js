@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { changeNonce, changeBlockNum } from '../actionCreators';
+import { changeNonce, changeBlockNum, mineBlock } from '../actionCreators';
 
 export function Block({ block, dispatch, index }) {
 	return (
@@ -14,6 +14,7 @@ export function Block({ block, dispatch, index }) {
 			<input disabled type="text" className="prev" value={block.prev} />
 			Hash:
 			<div className="hash">{block.hash}</div>
+			<button type="button" className="mine-btn" onClick={() => dispatch(mineBlock(index))}>Mine</button>
 		</div>
 	);
 }

@@ -34,7 +34,7 @@ describe('<Blockchain />', () => {
 	it('must call dispatch when add block button is clicked with action.type === ADD_BLOCK', () => {
 		const dispatchStub = jest.fn();
 		const wrapper = shallow(<Blockchain blocks={[]} dispatch={dispatchStub} />);
-		wrapper.find('button').simulate('click');
+		wrapper.find('.add-block-btn').simulate('click');
 		expect(dispatchStub).toHaveBeenCalledTimes(1);
 		expect(dispatchStub).toHaveBeenCalledWith({ type: 'ADD_BLOCK' });
 	});
@@ -67,7 +67,7 @@ describe('<ConnectedBlockchain />', () => {
 			</Root>
 		);
 		expect(wrapper.find(Block).length).toEqual(afterLength - 1);
-		wrapper.find('button').simulate('click');
+		wrapper.find('.add-block-btn').simulate('click');
 		wrapper.update();
 		expect(wrapper.find(Block).length).toEqual(afterLength);
 	});
