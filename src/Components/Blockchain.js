@@ -1,21 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Block from './Block';
+import ConnectedBlock from './Block';
 import { addBlock } from '../actionCreators';
 
 export function Blockchain(props) {
 	const { blocks, dispatch } = props;
 	return (
 		<div>
-			{blocks.map(block => (
-				<Block key={block.hash} block={block} />
+			{blocks.map((block, index) => (
+				<ConnectedBlock key={block.hash} block={block} index={index} />
 			))}
 			<button
 				type="button"
 				onClick={() => dispatch(addBlock())}
 			>
-				Yo
+				Add Block
 			</button>
 		</div>
 	);

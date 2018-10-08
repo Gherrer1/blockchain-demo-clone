@@ -1,8 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { changeBlock } from '../actionCreators';
 
-export default function Block({ block, dispatch, index }) {
+export function Block({ block, dispatch, index }) {
 	return (
 		<div>
 			<input type="text" className="blockNum" value={block.blockNum} onChange={e => dispatch(changeBlock(index, 'blockNum', e.target.value))} />
@@ -16,3 +17,12 @@ Block.propTypes = {
 	dispatch: PropTypes.func.isRequired,
 	index: PropTypes.number.isRequired,
 };
+
+function mapStateToProps(state, ownProps) {
+	return {
+		block: ownProps.block,
+		index: ownProps.index,
+	};
+}
+
+export default connect(mapStateToProps)(Block);

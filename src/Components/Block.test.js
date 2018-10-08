@@ -2,7 +2,7 @@
 no-spaced-func, func-call-spacing */
 import React from 'react';
 import { render, shallow, mount } from 'enzyme';
-import Block from './Block';
+import { Block } from './Block';
 
 describe('<Block />', () => {
 	let block;
