@@ -14,3 +14,21 @@ export function changeBlock(index, field, newValue) {
 		newValue,
 	};
 }
+
+export function changeBlockNum(index, newValue) {
+	return {
+		type: CHANGE_BLOCK,
+		field: 'blockNum',
+		index,
+		newValue,
+	};
+}
+
+export function changeNonce(index, newValue) {
+	return {
+		type: CHANGE_BLOCK,
+		field: 'nonce',
+		index,
+		newValue,
+	};
+}

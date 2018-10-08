@@ -16,9 +16,6 @@ export function hashBlock(_block) {
 }
 
 export function updatedBlock(_block, field, newValue) {
-	if (field === 'prev') {
-		return _block;
-	}
 	const newBlock = {
 		..._block,
 		[field]: newValue,

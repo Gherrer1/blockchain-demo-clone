@@ -31,17 +31,20 @@ describe('<Block />', () => {
 		expect(typeof nonceInput.props().value).toEqual('string');
 		expect(nonceInput.props().value).toEqual(block.nonce);
 	});
-	it('should render a prev text input with defaultValue of prop.block.prev', () => {
+	it('should render a prev text input with value of prop.block.prev', () => {
 		const wrapper = mount(<Block block={block} dispatch={() => {}} index={11} />);
 		const prevInput = wrapper.find('.prev');
 		expect(prevInput.length).toEqual(1);
-		expect(prevInput.props().defaultValue).toEqual(block.prev);
+		expect(prevInput.props().value).toEqual(block.prev);
 	});
 	it('should render a hash div with text of prop.block.hash', () => {
 		const wrapper = mount(<Block block={block} dispatch={() => {}} index={11} />);
 		const hashInput = wrapper.find('.hash');
 		expect(hashInput.length).toEqual(1);
 		expect(hashInput.props().children).toEqual(block.hash);
+	});
+	it.skip('should render a mine button', () => {
+		throw new Error('unimplemented');
 	});
 	it('should call dispatch({ type: CHANGE_BLOCK, index: x, field: "blockNum", newValue }) when blockNum value changes', () => {
 		const dispatchStub = jest.fn();

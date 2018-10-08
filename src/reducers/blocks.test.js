@@ -160,5 +160,12 @@ describe('blocks reducer', () => {
 			const state = blocks(prevState, action);
 			expect(state.length).toEqual(prevState.length);
 		});
+		it('should not change state if action.field === "prev"', () => {
+			// because the user cant change that state on their own
+			action.field = 'prev';
+			action.newValue = 'hashety';
+			const state = blocks(prevState, action);
+			expect(state).toEqual(prevState);
+		});
 	});
 });

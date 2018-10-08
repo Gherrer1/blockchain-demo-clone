@@ -1,17 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { changeBlock } from '../actionCreators';
+import { changeNonce, changeBlockNum } from '../actionCreators';
 
 export function Block({ block, dispatch, index }) {
 	return (
 		<div className="block">
 			Block Number:
-			<input type="text" className="blockNum" value={block.blockNum} onChange={e => dispatch(changeBlock(index, 'blockNum', e.target.value))} />
+			<input type="text" className="blockNum" value={block.blockNum} onChange={e => dispatch(changeBlockNum(index, e.target.value))} />
 			Nonce:
-			<input type="text" className="nonce" value={block.nonce} onChange={e => dispatch(changeBlock(index, 'nonce', e.target.value))} />
+			<input type="text" className="nonce" value={block.nonce} onChange={e => dispatch(changeNonce(index, e.target.value))} />
 			Prev:
-			<input disabled type="text" className="prev" defaultValue={block.prev} />
+			<input disabled type="text" className="prev" value={block.prev} />
 			Hash:
 			<div className="hash">{block.hash}</div>
 		</div>

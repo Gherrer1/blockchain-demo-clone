@@ -1,6 +1,7 @@
 /* eslint-disable no-case-declarations */
 import { ADD_BLOCK, CHANGE_BLOCK } from '../actions';
 import { block as Block, updatedBlock } from '../utils';
+const prev = 'prev';
 
 export function blocks(state = [], action) {
 	switch (action.type) {
@@ -15,6 +16,9 @@ export function blocks(state = [], action) {
 		if (action.index < 0 || action.index >= state.length) {
 			return state;
 		}
+		if (action.field === 'prev') {
+			return state;
+		}
 		let lastHash;
 		return state.map((block, index) => {
 			if (index < action.index) {
@@ -27,7 +31,7 @@ export function blocks(state = [], action) {
 			}
 			if (index > action.index) {
 				const newPrev = lastHash;
-				const newBlock = updatedBlock(block, action.field, newPrev);
+				const newBlock = updatedBlock(block, prev, newPrev);
 				lastHash = newBlock.hash;
 				return newBlock;
 			}

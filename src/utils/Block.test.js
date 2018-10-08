@@ -104,9 +104,9 @@ describe('updatedBlock', () => {
 	beforeEach(() => {
 		oldBlock = Block(Block());
 	});
-	it('should NOT return a different block with diff hash if we update prev', () => {
+	it('should return a different block with diff hash if we update prev', () => {
 		const newBlock = updatedBlock(oldBlock, 'prev', 'abc');
-		expect(newBlock.hash).toEqual(oldBlock.hash);
+		expect(newBlock.hash).not.toEqual(oldBlock.hash);
 	});
 	it('should return a different block if we update blockNum', () => {
 		const newBlock = updatedBlock(oldBlock, 'blockNum', 10000000);
