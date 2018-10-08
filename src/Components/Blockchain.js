@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -9,7 +10,7 @@ export function Blockchain(props) {
 	return (
 		<div>
 			{blocks.map((block, index) => (
-				<ConnectedBlock key={block.hash} index={index} />
+				<ConnectedBlock key={index} index={index} />
 			))}
 			<button
 				type="button"

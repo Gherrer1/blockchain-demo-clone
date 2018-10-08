@@ -4,16 +4,16 @@ function zeroHash() {
 	return new Array(64).join('0');
 }
 
-export function hashBlock(block) {
+export function hashBlock(_block) {
 	// NOTE: this is subject to be expanded
-	const { blockNum, prev } = block;
+	const { blockNum, prev } = _block;
 	const toHash = `${blockNum}${prev}`;
 	return sha256(toHash).toString();
 }
 
-export function updatedBlock(block, field, newValue) {
+export function updatedBlock(_block, field, newValue) {
 	const newBlock = {
-		...block,
+		..._block,
 		[field]: newValue,
 	};
 	newBlock.hash = hashBlock(newBlock);
