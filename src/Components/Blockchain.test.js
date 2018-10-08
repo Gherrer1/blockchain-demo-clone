@@ -1,4 +1,5 @@
-/* eslint-disable array-bracket-spacing, no-unexpected-multiline, no-spaced-func, func-call-spacing */
+/* eslint-disable array-bracket-spacing,
+no-unexpected-multiline, no-spaced-func, func-call-spacing */
 import React from 'react';
 import { render, shallow, mount } from 'enzyme';
 import Root from './Root';
