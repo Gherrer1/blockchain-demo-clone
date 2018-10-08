@@ -9,7 +9,7 @@ export function Blockchain(props) {
 	return (
 		<div>
 			{blocks.map((block, index) => (
-				<ConnectedBlock key={block.hash} block={block} index={index} />
+				<ConnectedBlock key={block.hash} index={index} />
 			))}
 			<button
 				type="button"

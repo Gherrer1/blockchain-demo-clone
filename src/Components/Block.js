@@ -20,7 +20,7 @@ Block.propTypes = {
 
 function mapStateToProps(state, ownProps) {
 	return {
-		block: ownProps.block,
+		block: state[ownProps.index],
 		index: ownProps.index,
 	};
 }
