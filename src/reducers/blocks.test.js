@@ -1,15 +1,19 @@
 import { blocks } from '.';
 import { block as Block } from '../utils';
-import { ADD_BLOCK, CHANGE_BLOCK } from '../actions';
+import { ADD_BLOCK, CHANGE_BLOCK, MINE_BLOCK } from '../actions';
 
-function get10BlockPrevState() {
+function getNBlockPrevState(n) {
 	let _block = Block();
 	const prevState = [];
-	for (let i = 0; i < 10; i++) {
+	for (let i = 0; i < n; i++) {
 		prevState.push(_block);
 		_block = Block(_block);
 	}
 	return prevState;
+}
+
+function get10BlockPrevState() {
+	return getNBlockPrevState(10);
 }
 
 describe('blocks reducer', () => {
@@ -166,6 +170,64 @@ describe('blocks reducer', () => {
 			action.newValue = 'hashety';
 			const state = blocks(prevState, action);
 			expect(state).toEqual(prevState);
+		});
+	});
+	describe(MINE_BLOCK, () => {
+		let action;
+		let prevState;
+		function assertBlockIsMined(block) {
+			expect(block.hash.slice(0, 3)).toEqual('000');
+		}
+		beforeEach(() => {
+			prevState = getNBlockPrevState(3);
+			action = {
+				type: MINE_BLOCK,
+				index: 1,
+			};
+		});
+		it('should not change state if index is out of bounds', () => {
+			action.index = -1;
+			let state = blocks(prevState, action);
+			expect(state).toEqual(prevState);
+
+			action.index = prevState.length + 100;
+			state = blocks(prevState, action);
+			expect(state).toEqual(prevState);
+		});
+		it('should return an array of the same length', () => {
+			const state = blocks(prevState, action);
+			expect(state.length).toEqual(prevState.length);
+		});
+		it('should not change every element before the target index', () => {
+			const state = blocks(prevState, action);
+			expect(state.slice(0, action.index)).toEqual(prevState.slice(0, action.index));
+		});
+		it('*** should ensure the target block has a 3 0 prefix hash', () => {
+			const state = blocks(prevState, action);
+			const targetBlock = state[action.index];
+			assertBlockIsMined(targetBlock);
+		});
+		it('should change every subsequence block\'s .prev to equal the previous block\'s .hash', () => {
+			prevState = getNBlockPrevState(5);
+			const state = blocks(prevState, action);
+			for (let i = action.index + 1; i < state.length; i++) {
+				expect(state[i].prev).toEqual(state[i - 1].hash);
+			}
+		});
+		it('should change every block if index === 0', () => {
+			action.index = 0;
+			const state = blocks(prevState, action);
+			for (let i = 0; i < state.length; i++) {
+				expect(state[i].hash).not.toEqual(prevState[i].hash);
+			}
+		});
+		it('should change only last block if index === last', () => {
+			action.index = prevState.length - 1;
+			const state = blocks(prevState, action);
+			for (let i = 0; i < state.length - 1; i++) {
+				expect(state[i].hash).toEqual(prevState[i].hash);
+			}
+			expect(state[action.index].hash).not.toEqual(prevState[action.index].hash);
 		});
 	});
 });

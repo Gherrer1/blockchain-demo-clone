@@ -1,8 +1,15 @@
-import { ADD_BLOCK, CHANGE_BLOCK } from '../actions';
+import { ADD_BLOCK, CHANGE_BLOCK, MINE_BLOCK } from '../actions';
 
 export function addBlock() {
 	return {
 		type: ADD_BLOCK,
+	};
+}
+
+export function mineBlock(index) {
+	return {
+		type: MINE_BLOCK,
+		index,
 	};
 }
 

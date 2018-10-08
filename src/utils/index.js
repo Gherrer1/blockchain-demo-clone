@@ -1,1 +1,1 @@
-export { block, updatedBlock } from './block';
+export { block, updatedBlock, hashBlock } from './block';
