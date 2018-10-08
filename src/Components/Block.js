@@ -5,7 +5,7 @@ import { changeNonce, changeBlockNum, mineBlock } from '../actionCreators';
 
 export function Block({ block, dispatch, index }) {
 	return (
-		<div className="block">
+		<div className={`block ${block.hash.slice(0, 3) === '000' ? 'mined' : ''}`}>
 			Block Number:
 			<input type="text" className="blockNum" value={block.blockNum} onChange={e => dispatch(changeBlockNum(index, e.target.value))} />
 			Nonce:

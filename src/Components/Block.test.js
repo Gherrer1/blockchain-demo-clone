@@ -45,6 +45,14 @@ describe('<Block />', () => {
 		expect(wrapper.find('.mine-btn').length).toEqual(1);
 		expect(wrapper.find('.mine-btn').props().onClick).toBeDefined();
 	});
+	it('should not have a .mined className if props.block.hash isn\'t 3 0 prefixed', () => {
+		expect(wrapper.find('.mined').length).toEqual(0);
+	});
+	it('should have a .mined className if props.block.hash is 3 0 prefixed', () => {
+		block.hash = '000sfjgsdjkfghfjdkghsdjfkg';
+		wrapper = shallow(<Block block={block} index={3} dispatch={jest.fn()} />);
+		expect(wrapper.find('.mined').length).toEqual(1);
+	});
 	describe('stubbing dispatch', () => {
 		let mountWrapper;
 		let dispatchStub;

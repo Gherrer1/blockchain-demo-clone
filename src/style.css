@@ -15,10 +15,11 @@ body {
     padding: 10px 5px;
     border: 1px solid rgba(128, 128, 128, 0.473);
     border-radius: 5px;
+    background-color: rgba(206, 56, 56, 0.644);
 }
 
 .block.mined {
-    background-color: rgb(70, 255, 70);
+    background-color: rgba(70, 255, 70, 0.664);
 }
 
 .block > input {
