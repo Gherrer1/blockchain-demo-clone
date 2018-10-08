@@ -9,9 +9,12 @@ export function Blockchain(props) {
 	const { blocks, dispatch } = props;
 	return (
 		<div>
-			{blocks.map((block, index) => (
-				<ConnectedBlock key={index} index={index} />
-			))}
+			<h2>Blockchain</h2>
+			<div className="blockchain">
+				{blocks.map((block, index) => (
+					<ConnectedBlock key={index} index={index} />
+				))}
+			</div>
 			<button
 				type="button"
 				onClick={() => dispatch(addBlock())}

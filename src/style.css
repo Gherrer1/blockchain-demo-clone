@@ -1,0 +1,27 @@
+body {
+    box-sizing: border-box;
+}
+
+.blockchain {
+    display: flex;
+}
+
+.block {
+    display: flex;
+    flex: 0 0 600px;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 5px;
+    padding: 10px 5px;
+    border: 1px solid rgba(128, 128, 128, 0.473);
+    border-radius: 5px;
+}
+
+.block.mined {
+    background-color: rgb(70, 255, 70);
+}
+
+.block > input {
+    margin: 3px;
+    width: 200px;
+}
