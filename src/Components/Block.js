@@ -5,17 +5,33 @@ import { changeNonce, changeBlockNum, mineBlock } from '../actionCreators';
 
 export function Block({ block, dispatch, index }) {
 	return (
-		<div className={`block ${block.hash.slice(0, 3) === '000' ? 'mined' : ''}`}>
-			Block Number:
-			<input type="text" className="blockNum" value={block.blockNum} onChange={e => dispatch(changeBlockNum(index, e.target.value))} />
-			Nonce:
-			<input type="text" className="nonce" value={block.nonce} onChange={e => dispatch(changeNonce(index, e.target.value))} />
-			Prev:
-			<input disabled type="text" className="prev" value={block.prev} />
-			Hash:
-			<div className="hash">{block.hash}</div>
+		<form className={`block ${block.hash.slice(0, 3) === '000' ? 'mined' : ''}`}>
+			<div className="form-group row">
+				<label className="col-form-label col-sm-2">Block:</label>
+				<div className="col-sm-10">
+					<input type="text" className="form-control blockNum" value={block.blockNum} onChange={e => dispatch(changeBlockNum(index, e.target.value))} />
+				</div>
+			</div>
+			<div className="form-group row">
+				<label className="col-form-label col-sm-2">Nonce:</label>
+				<div className="col-sm-10">
+					<input type="text" className="form-control nonce" value={block.nonce} onChange={e => dispatch(changeNonce(index, e.target.value))} />
+				</div>
+			</div>
+			<div className="form-group row">
+				<label className="col-form-label col-sm-2">Prev:</label>
+				<div className="col-sm-10">
+					<input disabled type="text" className="form-control prev" value={block.prev} />
+				</div>
+			</div>
+			<div className="form-group row">
+				<label className="col-form-label col-sm-2">Hash:</label>
+				<div className="col-sm-10">
+					<input disabled type="text" className="form-control hash" value={block.hash} />
+				</div>
+			</div>
 			<button type="button" className="mine-btn" onClick={() => dispatch(mineBlock(index))}>Mine</button>
-		</div>
+		</form>
 	);
 }
 Block.propTypes = {

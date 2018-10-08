@@ -8,7 +8,7 @@ import { addBlock } from '../actionCreators';
 export function Blockchain(props) {
 	const { blocks, dispatch } = props;
 	return (
-		<div>
+		<div className="blockchain-container">
 			<h2>Blockchain</h2>
 			<button
 				type="button"

@@ -2,7 +2,12 @@ body {
     box-sizing: border-box;
 }
 
+.blockchain-container {
+    margin: 25px 15px;
+}
+
 .blockchain {
+    margin-top: 8px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-column-gap: 5px;

@@ -39,7 +39,7 @@ describe('<Block />', () => {
 	it('should render a hash div with text of prop.block.hash', () => {
 		const hashInput = wrapper.find('.hash');
 		expect(hashInput.length).toEqual(1);
-		expect(hashInput.props().children).toEqual(block.hash);
+		expect(hashInput.props().value).toEqual(block.hash);
 	});
 	it('should render a mine button', () => {
 		expect(wrapper.find('.mine-btn').length).toEqual(1);
