@@ -13,6 +13,7 @@ describe('<Block />', () => {
 			blockNum: 5,
 			prev: prevConstant,
 			hash: hashConstant,
+			nonce: 'abc',
 		};
 	});
 	it('should render a blockNum text input with value of prop.block.blockNum', () => {
@@ -23,11 +24,18 @@ describe('<Block />', () => {
 		in a render wrapper, not a shallow/mount wrapper */
 		expect(blockNumInput.props().value).toEqual(block.blockNum);
 	});
-	it('should render a prev text input with value of prop.block.prev', () => {
+	it('should render a nonce text input with value of prop.blocks.nonce', () => {
+		const wrapper = shallow(<Block block={block} dispatch={jest.fn()} index={11} />);
+		const nonceInput = wrapper.find('.nonce');
+		expect(nonceInput.length).toEqual(1);
+		expect(typeof nonceInput.props().value).toEqual('string');
+		expect(nonceInput.props().value).toEqual(block.nonce);
+	});
+	it('should render a prev text input with defaultValue of prop.block.prev', () => {
 		const wrapper = mount(<Block block={block} dispatch={() => {}} index={11} />);
 		const prevInput = wrapper.find('.prev');
 		expect(prevInput.length).toEqual(1);
-		expect(prevInput.props().value).toEqual(block.prev);
+		expect(prevInput.props().defaultValue).toEqual(block.prev);
 	});
 	it('should render a hash div with text of prop.block.hash', () => {
 		const wrapper = mount(<Block block={block} dispatch={() => {}} index={11} />);
@@ -69,31 +77,25 @@ describe('<Block />', () => {
 			newValue: 'new va',
 		});
 	});
-	it('should call dispatch({ type: CHANGE_BLOCK, index: x, field: "prev", newValue }) when prev value changes', () => {
+	it('should NOT call dispatch() when prev value changes', () => {
 		const dispatchStub = jest.fn();
 		const wrapper = mount(<Block block={block} index={3} dispatch={dispatchStub} />);
 		const prevInput = wrapper.find('.prev');
 		prevInput.simulate('change', { target: { value: 'abc' } });
-		prevInput.simulate('change', { target: { value: 'abcd' } });
-		prevInput.simulate('change', { target: { value: 'abcde' } });
-		expect(dispatchStub).toHaveBeenCalledTimes(3);
+		expect(dispatchStub).toHaveBeenCalledTimes(0);
+	});
+	it('should call dispatch({ type: CHANGE_BLOCK, index: x, field: "nonce", newValue }) when nonce value changes', () => {
+		const dispatchStub = jest.fn();
+		const wrapper = mount(<Block block={block} index={3} dispatch={dispatchStub} />);
+		const nonceInput = wrapper.find('.nonce');
+		nonceInput.simulate('change', { target: { value: 'new va' } });
+		expect(dispatchStub).toHaveBeenCalled();
 		expect(dispatchStub.mock.calls[0][0]).toEqual({
 			type: 'CHANGE_BLOCK',
-			field: 'prev',
 			index: 3,
-			newValue: 'abc',
+			field: 'nonce',
+			newValue: 'new va',
 		});
-		expect(dispatchStub.mock.calls[1][0]).toEqual({
-			type: 'CHANGE_BLOCK',
-			field: 'prev',
-			index: 3,
-			newValue: 'abcd',
-		});
-		expect(dispatchStub.mock.calls[2][0]).toEqual({
-			type: 'CHANGE_BLOCK',
-			field: 'prev',
-			index: 3,
-			newValue: 'abcde',
-		});
+		// throw new Error('unimp');
 	});
 });

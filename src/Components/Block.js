@@ -8,8 +8,10 @@ export function Block({ block, dispatch, index }) {
 		<div className="block">
 			Block Number:
 			<input type="text" className="blockNum" value={block.blockNum} onChange={e => dispatch(changeBlock(index, 'blockNum', e.target.value))} />
+			Nonce:
+			<input type="text" className="nonce" value={block.nonce} onChange={e => dispatch(changeBlock(index, 'nonce', e.target.value))} />
 			Prev:
-			<input type="text" className="prev" value={block.prev} onChange={e => dispatch(changeBlock(index, 'prev', e.target.value))} />
+			<input disabled type="text" className="prev" defaultValue={block.prev} />
 			Hash:
 			<div className="hash">{block.hash}</div>
 		</div>
