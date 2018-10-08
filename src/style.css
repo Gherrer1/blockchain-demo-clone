@@ -3,15 +3,16 @@ body {
 }
 
 .blockchain {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: 5px;
+    grid-row-gap: 5px;
 }
 
 .block {
     display: flex;
-    flex: 0 0 600px;
     flex-direction: column;
     align-items: center;
-    margin-right: 5px;
     padding: 10px 5px;
     border: 1px solid rgba(128, 128, 128, 0.473);
     border-radius: 5px;
@@ -24,5 +25,16 @@ body {
 
 .block > input {
     margin: 3px;
-    width: 200px;
+}
+
+.hash {
+    text-align: center;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
 }

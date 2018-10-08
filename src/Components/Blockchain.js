@@ -10,11 +10,6 @@ export function Blockchain(props) {
 	return (
 		<div>
 			<h2>Blockchain</h2>
-			<div className="blockchain">
-				{blocks.map((block, index) => (
-					<ConnectedBlock key={index} index={index} />
-				))}
-			</div>
 			<button
 				type="button"
 				className="add-block-btn"
@@ -22,6 +17,11 @@ export function Blockchain(props) {
 			>
 				Add Block
 			</button>
+			<div className="blockchain">
+				{blocks.map((block, index) => (
+					<ConnectedBlock key={index} index={index} />
+				))}
+			</div>
 		</div>
 	);
 }
